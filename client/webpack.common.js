@@ -1,16 +1,12 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
-	mode: 'development',
 	entry: [
-		'webpack-hot-middleware/client?reload=true',
 		path.join(__dirname, 'src'),
 	],
 	output: {
 		path: path.join(__dirname, '..', 'public', 'dist'), // the bundle output path
 		filename: 'bundle.js', // the name of the bundle.
-		publicPath: '/',
 	},
 	module: {
 		rules: [
@@ -34,8 +30,5 @@ module.exports = {
 				options: { limit: false },
 			},
 		],
-	},
-	plugins: [
-		new webpack.HotModuleReplacementPlugin()
-	],
+	}
 };

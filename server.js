@@ -6,8 +6,6 @@ const app = express();
 
 const config = require('./client/webpack.config.js');
 console.log(config);
-const webpack = require('webpack');
-const compiler = webpack(config);
 
 const PORT = process.env.PORT || 7654;
 const environment = process.env.NODE_ENV || 'production';
@@ -27,12 +25,13 @@ app.set('view engine', '.hbs');
 app.set('views', './views');
 
 if ( environment === 'development' ) {
-	console.log(config.output.publicPath);
-  app.use( require("webpack-dev-middleware")(compiler,  {
+	const webpack = require('webpack');
+	const compiler = webpack(config);
+	app.use( require("webpack-dev-middleware")(compiler,  {
 			publicPath: config.output.publicPath,
 		})
 	);
-  app.use(require('webpack-hot-middleware')(compiler));
+  	app.use(require('webpack-hot-middleware')(compiler));
 } else {
 	app.use(express.static('public/dist'));
 }
