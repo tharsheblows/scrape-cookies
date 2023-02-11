@@ -1,0 +1,14 @@
+{
+  "name": "scrape-for-cookies",
+  "version": "1.0.0",
+  "description": "Puppeteer POC to scrape a site for cookies",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "author": "JJ",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^19.6.3"
+  }
+}
