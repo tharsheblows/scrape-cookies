@@ -3,9 +3,18 @@ const puppeteer = require('puppeteer');
 //Loads the handlebars module
 const hb = require('express-handlebars');
 const app = express();
+
+const config = require('./client/webpack.config.js');
+console.log(config);
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const compiler = webpack(config);
+
 const PORT = process.env.PORT || 7654;
+const environment = process.env.NODE_ENV || 'production';
 
 console.log(hb);
+console.log(environment);
 
 app.engine(
 	'.hbs',
@@ -18,7 +27,19 @@ app.engine(
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
-app.use(express.static('public'));
+if ( environment === 'development' ) {
+	console.log(config.output.publicPath);
+  app.use(
+		webpackDevMiddleware(compiler, {
+			publicPath: config.output.publicPath,
+		})
+  );
+} else {
+	app.use(express.static('public/dist'));
+}
+
+app.use(express.static('public/js'));
+app.use(express.static('public/css'));
 
 app.get('/test', (req, res) => {
 	res.send('Hello World!');

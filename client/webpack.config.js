@@ -1,9 +1,13 @@
 const path = require('path');
 
 module.exports = {
+	entry: {
+		path: path.join(__dirname, 'src'),
+	},
 	output: {
-		path: path.join(__dirname, '..', 'public'), // the bundle output path
+		path: path.join(__dirname, '..', 'public', 'dist'), // the bundle output path
 		filename: 'bundle.js', // the name of the bundle.
+		publicPath: '/',
 	},
 	module: {
 		rules: [
@@ -12,6 +16,11 @@ module.exports = {
 				exclude: /node_modules/, // excluding the node_modules folder
 				use: {
 					loader: 'babel-loader',
+					options: {
+						presets: [
+							 '@babel/preset-env', '@babel/preset-react',
+						],
+					},
 				},
 			},
 			{

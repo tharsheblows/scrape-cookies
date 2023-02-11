@@ -2,10 +2,10 @@
   "name": "scrape-for-cookies",
   "version": "1.0.0",
   "description": "Puppeteer POC to scrape a site for cookies",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "npm run build --workspace=client && node server.js",
-    "dev": "nodemon server.js"
+    "dev": "NODE_ENV=development nodemon server.js"
   },
   "workspaces": [
     "client"
