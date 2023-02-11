@@ -1,9 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-	entry: {
-		path: path.join(__dirname, 'src'),
-	},
+	mode: 'development',
+	entry: [
+		'webpack-hot-middleware/client?reload=true',
+		path.join(__dirname, 'src'),
+	],
 	output: {
 		path: path.join(__dirname, '..', 'public', 'dist'), // the bundle output path
 		filename: 'bundle.js', // the name of the bundle.
@@ -17,9 +20,7 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: [
-							 '@babel/preset-env', '@babel/preset-react',
-						],
+						presets: ['@babel/preset-env', '@babel/preset-react'],
 					},
 				},
 			},
@@ -34,4 +35,7 @@ module.exports = {
 			},
 		],
 	},
+	plugins: [
+		new webpack.HotModuleReplacementPlugin()
+	],
 };

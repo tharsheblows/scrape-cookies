@@ -7,7 +7,6 @@ const app = express();
 const config = require('./client/webpack.config.js');
 console.log(config);
 const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
 const compiler = webpack(config);
 
 const PORT = process.env.PORT || 7654;
@@ -29,11 +28,11 @@ app.set('views', './views');
 
 if ( environment === 'development' ) {
 	console.log(config.output.publicPath);
-  app.use(
-		webpackDevMiddleware(compiler, {
+  app.use( require("webpack-dev-middleware")(compiler,  {
 			publicPath: config.output.publicPath,
 		})
-  );
+	);
+  app.use(require('webpack-hot-middleware')(compiler));
 } else {
 	app.use(express.static('public/dist'));
 }
