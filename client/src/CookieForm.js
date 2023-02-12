@@ -15,8 +15,6 @@ const CookieForm = () => {
 
 		setLoading(true);
 
-		console.log({site});
-
 		const body = {
 			"site": site
 		}
@@ -35,7 +33,6 @@ const CookieForm = () => {
 			.then((data) => {
 				setLoading(false);
 				if ( data.cookies ) {
-					console.log( data );
 					setCookies(data.cookies);
 					setHasCookies(true);
 				} else {

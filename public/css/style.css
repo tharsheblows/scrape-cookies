@@ -23,6 +23,7 @@
 	--light-background: #fff6e4;
 	--white: #fff;
 	--border-height: 2px;
+	--thick-border: 15px;
 
 }
 
@@ -88,14 +89,18 @@ button:hover {
 	font-size: 16px;
 }
 
-.help {
+.help, .counts p {
 	font-size: 16px;
 	margin-block-start: 0.5em;
 }
 
-.more-info {
+.more-info, .counts {
 	background-color: var(--light-background);
 	padding: 0.5em;
+}
+
+.counts {
+	border: var(--thick-border) solid var(--light-highlight);
 }
 
 .separator {
@@ -115,6 +120,7 @@ button:hover {
 .good {
 	background-color: var(--good);
 }
+
 .loading {
 	background: var( --light-highlight );
 	color: var(--white);
@@ -134,7 +140,7 @@ button:hover {
 	margin-block: 0.5em;
 	font-size: 16px;
 	background: var(--light-background );
-	border: 15px solid var(--light-background);
+	border: var(--thick-border) solid var(--light-background);
 }
 
 .first-party {
