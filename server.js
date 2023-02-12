@@ -1,5 +1,5 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+
 //Loads the handlebars module
 const hb = require('express-handlebars');
 const app = express();
@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 7654;
 const environment = process.env.NODE_ENV || 'production';
 
-console.log(hb);
-console.log(environment);
+const api = require('./routes/api');
+const home = require('./routes/home');
 
 app.engine(
 	'.hbs',
@@ -21,8 +21,11 @@ app.engine(
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
+app.use(express.json());
+
 if ( environment === 'development' ) {
 
+	// Live reload when anything changes.
 	const livereload = require('livereload');
 	const connectLiveReload = require('connect-livereload');
 
@@ -32,18 +35,20 @@ if ( environment === 'development' ) {
 			liveReloadServer.refresh('/');
 		}, 10);
 	});
-
 	app.use(connectLiveReload());
 
+	// Compile the react on the fly during development.
 	const config = require('./client/webpack.dev.js');
 	const webpack = require('webpack');
 	const compiler = webpack(config);
+
 	app.use( require("webpack-dev-middleware")(compiler,  {
 			publicPath: config.output.publicPath,
 		})
 	);
-  	app.use(require('webpack-hot-middleware')(compiler));
+
 } else {
+	// In production, use the built React app.
 	app.use(express.static('public/dist'));
 }
 
@@ -51,44 +56,15 @@ app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 
 app.get('/test', (req, res) => {
-	res.send('Hello World!');
+	res.send('Would you like some toast.');
 });
 
-app.get('/api', (req, res) => {
-	res.json({ message: 'Hello from server!' });
-});
+app.get('/', home);
 
-app.get('/', async function (_req, res) {
-	const form = require( './html-templates/form' );
-	res.render('main', {layout: 'index', loadingState: "running, check the console baby"});
-	console.log('hey');
-	const executablePath = await puppeteer.executablePath();
-	console.log(executablePath);
-	const browser = await puppeteer.launch({
-		headless: true,
-		args: ['--no-sandbox']
-	});
-	console.log(browser);
-	const page = await browser.newPage();
-	console.log('Loading site...');
-	await page.setExtraHTTPHeaders({
-		'user-agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',
-		'sec-ch-ua-platform': 'Windows',
-		'viewport-width': '1366',
-		'accept-language': 'en,ar-DZ;q=0.9,ar;q=0.8',
-	});
-	await page.goto('https://google.com', { waitUntil: 'networkidle2' });
+app.post('/api', api );
 
-	const client = await page.target().createCDPSession();
-	const cookies = await client.send('Network.getAllCookies');
-	// Here we can get all of the cookies
-	console.log(cookies);
-	console.log('done');
-});
-
-app.get('/cookies', function (_req, res) {
-	res.send('cookies');
+app.get('/happy', function (_req, res) {
+	res.send('happy');
 });
 
 const listener = app.listen( PORT, function () {
