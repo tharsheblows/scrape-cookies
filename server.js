@@ -4,9 +4,6 @@ const puppeteer = require('puppeteer');
 const hb = require('express-handlebars');
 const app = express();
 
-const config = require('./client/webpack.config.js');
-console.log(config);
-
 const PORT = process.env.PORT || 7654;
 const environment = process.env.NODE_ENV || 'production';
 
@@ -25,6 +22,20 @@ app.set('view engine', '.hbs');
 app.set('views', './views');
 
 if ( environment === 'development' ) {
+
+	const livereload = require('livereload');
+	const connectLiveReload = require('connect-livereload');
+
+	const liveReloadServer = livereload.createServer();
+	liveReloadServer.server.once('connection', () => {
+		setTimeout(() => {
+			liveReloadServer.refresh('/');
+		}, 10);
+	});
+
+	app.use(connectLiveReload());
+
+	const config = require('./client/webpack.dev.js');
 	const webpack = require('webpack');
 	const compiler = webpack(config);
 	app.use( require("webpack-dev-middleware")(compiler,  {
@@ -48,7 +59,8 @@ app.get('/api', (req, res) => {
 });
 
 app.get('/', async function (_req, res) {
-	res.render('main', {layout: 'index', loadingState: "running, check the console"});
+	const form = require( './html-templates/form' );
+	res.render('main', {layout: 'index', loadingState: "running, check the console baby"});
 	console.log('hey');
 	const executablePath = await puppeteer.executablePath();
 	console.log(executablePath);
@@ -79,6 +91,7 @@ app.get('/cookies', function (_req, res) {
 	res.send('cookies');
 });
 
-var listener = app.listen( PORT, function () {
+const listener = app.listen( PORT, function () {
+	listener.keepAliveTimeout = 0;
 	console.log('PORT | ' + listener.address().port);
 });
