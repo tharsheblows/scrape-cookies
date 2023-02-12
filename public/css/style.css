@@ -80,6 +80,8 @@ button:hover {
 .input {
 	width: 100%;
 	height: 2em;
+	font-family: 'fira_sansregular';
+	font-size: 16px;
 }
 
 .help {
@@ -103,9 +105,12 @@ button:hover {
 
 .status {
 	padding: 1em;
-	margin-block-start: 2em;
+	margin-block: 2em;
 }
 
+.good {
+	background-color: var(--good);
+}
 .loading {
 	background: var( --light-highlight );
 	color: var(--white);

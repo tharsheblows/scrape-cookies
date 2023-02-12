@@ -86,9 +86,12 @@ const CookieForm = () => {
 			<hr className="separator" />
 			{loading && (
 				<div className="loading status">
-					Please wait while we get the page.
+					Please wait while we get the page. This can take a while.
 				</div>
 			)}
+			{! loading && hasCookies && cookies.length === 0 &&
+				<div className="status good">There are no cookies to show.</div>
+			}
 			{hasCookies && ! loading && <Results cookies={cookies} searchedSite={site} />}
 			{!hasCookies && message && ! loading && (
 				<div className="error status">{message}</div>
