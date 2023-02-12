@@ -73,8 +73,7 @@ const CookieForm = () => {
 					<p className="help">
 						The sites will see this traffic as coming from the US.
 						The cookie consent check on a site can vary by location
-						so it might not get triggered. This is a proof of concept
-						but it'd be interesting to be able to change that.
+						so it might not get triggered.
 					</p>
 					<p className="help">
 						Also, Puppeteer is launched in an incognito context.
