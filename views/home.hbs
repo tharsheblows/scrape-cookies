@@ -1,9 +1,29 @@
 <div id="form">
-	<form>
-		<label for="site">Website page:</label>
-		<input type="text" name="site"/>
-		<p>Please enter the full url.</p>
-		<button type="submit">Submit</button>
+	<form class="form">
+		<label for="site" class="label">
+			Website page
+		</label>
+		<input class="input" name="site" disabled/>
+		<p class="help">loading</p>
+		<button class="submit" type="submit" disabled>
+			Get the cookies
+		</button>
+		<hr class="separator" />
+		<div class="more-info">
+			<p class="help">
+				The location on this seems to be set by your browser
+				location. So to see what's set in other areas – and the
+				results vary wildly by area – change your location via a
+				VPN. This is a proof of concept but it'd be interesting to have it here.
+			</p>
+			<p class="help">
+				Also, Puppeteer is launched in an incognito context.
+			</p>
+			<p class="help">
+				Lastly, this is a proof of concept and it's possible to break it.
+				Let me know if that happens.
+			</p>
+		</div>
 	</form>
-	<div id="results"></div>
+	<hr class="separator" />
 </div>
