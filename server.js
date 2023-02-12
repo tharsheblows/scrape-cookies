@@ -7,6 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 7654;
 const environment = process.env.NODE_ENV || 'production';
 
+console.log( 'ENVIRONMENT | ' + environment );
+
 const api = require('./routes/api');
 const home = require('./routes/home');
 
