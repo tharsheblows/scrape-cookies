@@ -15,9 +15,13 @@ router.post('/api', async function (_req, res) {
 
 	const browser = await puppeteer.launch({
 		headless: true,
-		args: ['--no-sandbox']
+		// Could have dynamic options here for incognito.
+		args: ['--no-sandbox'],
 	});
-	const page = await browser.newPage();
+
+	// Let's put this in incognito mode, shall we? For now.
+	const context = await browser.createIncognitoBrowserContext();
+	const page = await context.newPage();
 	// I'm a real browser.
 	await page.setExtraHTTPHeaders({
 		'user-agent':
@@ -26,7 +30,14 @@ router.post('/api', async function (_req, res) {
 		'viewport-width': '1366',
 		'accept-language': 'en,ar-DZ;q=0.9,ar;q=0.8',
 	});
-	await page.goto(body.site, { waitUntil: 'networkidle2' });
+
+	try {
+		await page.goto(body.site, { waitUntil: 'networkidle2' });
+	} catch (error) {
+		res.send( { message: 'This page could not be loaded, please check the url.' } );
+		return;
+	}
+
 	await autoScroll(page);
 
 	const client = await page.target().createCDPSession();
