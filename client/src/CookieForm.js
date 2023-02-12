@@ -13,6 +13,7 @@ const CookieForm = () => {
 		// Prevent the browser from reloading the page
 		e.preventDefault();
 
+		setCookies([]);
 		setLoading(true);
 
 		const body = {
@@ -58,13 +59,25 @@ const CookieForm = () => {
 				<p className="help">
 					Please enter the full url with the https:// bit.
 				</p>
-				<button
-					className="submit"
-					type="submit"
-					onClick={(e) => handleSubmit(e)}
-				>
-					Get the cookies
-				</button>
+				{loading && (
+					<button className="submit" type="submit" disabled>
+						loading
+					</button>
+				)}
+				{!loading && (
+					<button
+						className="submit"
+						type="submit"
+						onClick={(e) => handleSubmit(e)}
+					>
+						Search for cookies
+					</button>
+				)}
+				{!loading && hasCookies && (
+					<a className="go-to-cookies button" href="#cookies">
+						Go to the cookie list
+					</a>
+				)}
 				<hr className="separator" />
 				<div className="more-info">
 					<p className="help">
@@ -73,13 +86,14 @@ const CookieForm = () => {
 						so it might not get triggered.
 					</p>
 					<p className="help">
-						This only looks at the first 50k pixels in height of a page.
-						Usually not an issue.
+						This only looks at the first 50k pixels in height of a
+						page. Usually not an issue.
 					</p>
 					<p className="help">
-						Subdomains except for www will show incorrect third party cookies.
-						This *is* an issue which will be fixed at some point. Cookies set
-						on the naked domain are first party.
+						Subdomains except for www will show incorrect third
+						party cookies. This *is* an issue which will be fixed at
+						some point. Cookies set on the naked domain are first
+						party.
 					</p>
 					<p className="help">
 						Puppeteer is launched in an incognito context.
@@ -100,7 +114,9 @@ const CookieForm = () => {
 				<div className="status good">There are no cookies to show.</div>
 			)}
 			{hasCookies && !loading && (
-				<Results cookies={cookies} searchedSite={site} />
+				<div id="cookies">
+					<Results cookies={cookies} searchedSite={site} />
+				</div>
 			)}
 			{!hasCookies && message && !loading && (
 				<div className="error status">{message}</div>

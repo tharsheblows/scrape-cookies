@@ -24,6 +24,9 @@
 	--white: #fff;
 	--border-height: 2px;
 	--thick-border: 15px;
+	--disabled: #999;
+	--disabled-text: #333;
+
 
 }
 
@@ -49,13 +52,19 @@ h1 {
 	font-family: 'montserratsemibold';
 }
 
-button {
+button, .button {
 	background: var(--light-background);
 	border: var(--border-height) solid var(--warning);
 	box-shadow: none;
 	padding: 0.5em;
 	font-family: 'fira_sansregular';
 	font-size: 16px;
+}
+
+button:disabled, button:disabled:hover, button:disabled:active {
+	background: var(--disabled);
+	border-color: var(--disabled);
+	color: var(--disabled-text);
 }
 
 button:active {
@@ -87,6 +96,17 @@ button:hover {
 	height: 2em;
 	font-family: 'fira_sansregular';
 	font-size: 16px;
+}
+
+.go-to-cookies {
+	margin-inline-start: 1em;
+	background: var( --dark-highlight );
+	color: var( --white );
+	text-decoration: none;
+}
+
+.go-to-cookies:hover, .go-to-cookies:active {
+	background: var( --light-highlight );
 }
 
 .help, .counts p {
@@ -160,6 +180,10 @@ button:hover {
 .show-details {
 	background-color: var(--background);
 	margin-block-start: 1em;
+}
+
+.cookie-details li {
+	word-break: break-all;
 }
 
 footer {
