@@ -58,7 +58,9 @@ const CookieForm = () => {
 					value={site} // ...force the input's value to match the state variable...
 					onChange={(e) => setSite(e.target.value)}
 				/>
-				<p className="help">Please enter the full url with the https:// bit.</p>
+				<p className="help">
+					Please enter the full url with the https:// bit.
+				</p>
 				<button
 					className="submit"
 					type="submit"
@@ -66,20 +68,20 @@ const CookieForm = () => {
 				>
 					Get the cookies
 				</button>
-				<hr className="separator"/>
+				<hr className="separator" />
 				<div class="more-info">
 					<p className="help">
-						The location on this seems to be set by your browser
-						location. So to see what's set in other areas – and the
-						results vary wildly by area – change your location via a
-						VPN. This is a proof of concept but it'd be interesting to have it here.
+						The sites will see this traffic as coming from the US.
+						The cookie consent check on a site can vary by location
+						so it might not get triggered. This is a proof of concept
+						but it'd be interesting to be able to change that.
 					</p>
 					<p className="help">
 						Also, Puppeteer is launched in an incognito context.
 					</p>
 					<p className="help">
-						Lastly, this is a proof of concept and it's possible to break it.
-						Let me know if that happens.
+						Lastly, this is a proof of concept and it's possible to
+						break it. Let me know if that happens.
 					</p>
 				</div>
 			</form>
@@ -89,11 +91,13 @@ const CookieForm = () => {
 					Please wait while we get the page. This can take a while.
 				</div>
 			)}
-			{! loading && hasCookies && cookies.length === 0 &&
+			{!loading && hasCookies && cookies.length === 0 && (
 				<div className="status good">There are no cookies to show.</div>
-			}
-			{hasCookies && ! loading && <Results cookies={cookies} searchedSite={site} />}
-			{!hasCookies && message && ! loading && (
+			)}
+			{hasCookies && !loading && (
+				<Results cookies={cookies} searchedSite={site} />
+			)}
+			{!hasCookies && message && !loading && (
 				<div className="error status">{message}</div>
 			)}
 		</>
