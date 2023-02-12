@@ -16,7 +16,16 @@
 				so it might not get triggered.
 			</p>
 			<p class="help">
-				Also, Puppeteer is launched in an incognito context.
+				This only looks at the first 50k pixels in height of a page.
+				Usually not an issue.
+			</p>
+			<p class="help">
+				Subdomains except for www will show incorrect third party cookies.
+				This *is* an issue which will be fixed at some point. Cookies set
+				on the naked domain are first party.
+			</p>
+			<p class="help">
+				Puppeteer is launched in an incognito context.
 			</p>
 			<p class="help">
 				Lastly, this is a proof of concept and it's possible to break it.

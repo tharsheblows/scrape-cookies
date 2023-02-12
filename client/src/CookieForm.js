@@ -69,14 +69,23 @@ const CookieForm = () => {
 					Get the cookies
 				</button>
 				<hr className="separator" />
-				<div class="more-info">
+				<div className="more-info">
 					<p className="help">
 						The sites will see this traffic as coming from the US.
 						The cookie consent check on a site can vary by location
 						so it might not get triggered.
 					</p>
 					<p className="help">
-						Also, Puppeteer is launched in an incognito context.
+						This only looks at the first 50k pixels in height of a page.
+						Usually not an issue.
+					</p>
+					<p className="help">
+						Subdomains except for www will show incorrect third party cookies.
+						This *is* an issue which will be fixed at some point. Cookies set
+						on the naked domain are first party.
+					</p>
+					<p className="help">
+						Puppeteer is launched in an incognito context.
 					</p>
 					<p className="help">
 						Lastly, this is a proof of concept and it's possible to
