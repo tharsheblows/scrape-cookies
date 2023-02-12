@@ -56,6 +56,7 @@ if ( environment === 'development' ) {
 
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
+app.use(express.static('public/fonts'));
 
 app.get('/test', (req, res) => {
 	res.send('Would you like some toast.');

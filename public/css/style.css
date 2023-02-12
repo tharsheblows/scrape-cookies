@@ -1,4 +1,83 @@
+@font-face {
+	font-family: 'fira_sansregular';
+	src: url('/firasans-regular-webfont.woff2') format('woff2'),
+		url('/firasans-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'montserratsemibold';
+	src: url('/montserrat-semibold-webfont.woff2') format('woff2'),
+		url('/montserrat-semibold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
 
 body {
-	background: blue;
+	background: #ffe1a8;
+	font-family: 'fira_sansregular';
+	font-size: 18px;
+}
+
+header {
+	margin-block: 4rem;
+	text-align: center;
+}
+
+h1 {
+	font-family: 'montserratsemibold';
+}
+
+#form {
+	margin: 0 auto;
+	max-width: 600px;
+	padding-inline: 4em;
+}
+
+.page-search__label {
+	display: block;
+}
+
+.page-search__input {
+	width: 100%;
+	height: 2em;
+}
+
+.page-search__help {
+	font-size: 16px;
+	margin-block-start: 0.5em;
+}
+
+.page-search__submit {
+	font-family: 'fira_sansregular';
+	font-size: 16px;
+}
+
+.page-search__error {
+	background: #723d46;
+	color: #fff;
+	padding: 1em;
+	margin-block-start: 2em;
+}
+
+.page-search__results {
+	margin-block-start: 2em;
+}
+
+
+.dark-highlight {
+	color: #472d30;
+}
+
+.light-highlight {
+	color: #723d46;
+}
+
+.orangey {
+	color: #e26d5c;
+}
+
+.mild-green {
+	color: #c9cba3;
 }

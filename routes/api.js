@@ -18,7 +18,7 @@ router.post('/api', async function (_req, res) {
 		args: ['--no-sandbox']
 	});
 	const page = await browser.newPage();
-	// We're a real browser.
+	// I'm a real browser.
 	await page.setExtraHTTPHeaders({
 		'user-agent':
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36',

@@ -1,16 +1,12 @@
 import React from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 
-import App from './App';
 import CookieForm from './CookieForm';
-import './App.scss';
 
-const el = document.getElementById('app');
-const root = createRoot(el);
+const cookieFormEL = document.getElementById('form');
 
-root.render(<App />);
+if ( cookieFormEL ) {
+	const cookieRoot = createRoot(cookieFormEL);
+	cookieRoot.render(<CookieForm />);
+}
 
-const hydrationEl = document.getElementById('hydration');
-const hydrationRoot = createRoot( hydrationEl );
-
-hydrationRoot.render(<CookieForm />);

@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Results from './Results';
 
 const CookieForm = () => {
 
-	const [ greeting, setGreeting ] = useState('Submit');
 	const [ site, setSite ] = useState('');
 	const [ message, setMessage ] = useState('');
-
-	useEffect(() => {
-		setGreeting('hey there you lovely thing');
-	}, [setGreeting]);
+	const [ hasCookies, setHasCookies ] = useState(false);
+	const [ cookies, setCookies ] = useState([]);
 
 	const handleSubmit = (e) => {
 		// Prevent the browser from reloading the page
@@ -33,23 +31,44 @@ const CookieForm = () => {
 			body: JSON.stringify(body),
 		})
 			.then((response) => response.json())
-			.then((data) => console.log(data));
+			.then((data) => {
+				if ( data.cookies ) {
+					console.log( data );
+					setCookies(data.cookies);
+					setHasCookies(true);
+				} else {
+					const m = data.message ?? 'Something has gone horribly wrong, maybe try reloading the page.';
+					setMessage(m);
+				}
+			});
 	}
 
 	return (
-		<div className="wrapper">
-			<form method="post">
+		<>
+			<form className="page-search__form">
+				<label htmlFor="site" className="page-search__label">
+					Website page
+				</label>
 				<input
+					className="page-search__input"
 					name="site"
 					type="text"
 					value={site} // ...force the input's value to match the state variable...
 					onChange={(e) => setSite(e.target.value)}
 				/>
-				<button type="submit" onClick={(e) => handleSubmit(e)}>{greeting}</button>
+				<p className="page-search__help">Please enter the full url.</p>
+				<button
+					className="page-search__submit"
+					type="submit"
+					onClick={(e) => handleSubmit(e)}
+				>
+					Get the cookies
+				</button>
 			</form>
 
-			<div id="results">{message}</div>
-		</div>
+			{ hasCookies &&  ( <Results cookies={cookies} /> ) }
+			{ ! hasCookies && message && ( <div className="page-search__error">{message}</div> ) }
+		</>
 	);
 };
 
