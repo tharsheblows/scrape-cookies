@@ -32,7 +32,7 @@ const Results = ( props ) => {
 		// only get up to index here.
 		const markup = cookies.map((c, i) => {
 			// This is a bit handwaving.
-			return i <= index ? <Result isGood={ c.domain.includes( searchedDomain )} key={i} cookie={c} /> : '';
+			return i <= index ? <Result isGood={ c.domain.toLowerCase().includes( searchedDomain.toLowerCase() )} key={i} cookie={c} /> : '';
 		});
 		setCookiesMarkup(markup);
 	}, [index, setCookiesMarkup]);
