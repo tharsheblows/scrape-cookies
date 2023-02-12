@@ -14,7 +14,6 @@
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
     "url-loader": "^4.1.1",
-    "webpack": "^5.51.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^6.0.1",
     "webpack-hot-middleware": "^2.25.3"
@@ -22,7 +21,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "webpack": "^5.51.1",
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
