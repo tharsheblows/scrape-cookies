@@ -67,6 +67,10 @@ button:hover {
 	color: var(--white);
 }
 
+.submit {
+	margin-block-start: 1em;
+}
+
 #form {
 	margin: 0 auto;
 	max-width: 600px;
@@ -78,7 +82,7 @@ button:hover {
 }
 
 .input {
-	width: 100%;
+	width: 80%;
 	height: 2em;
 	font-family: 'fira_sansregular';
 	font-size: 16px;

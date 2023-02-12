@@ -16,7 +16,7 @@ const Results = ( props ) => {
 			() => {
 				setIndex((i) => (i + 1) % cookies.length);
 			}, // <-- increment index
-			300
+			30
 		);
 		setTimerId(markupTimerId);
 		return () => clearInterval(markupTimerId);
@@ -33,19 +33,14 @@ const Results = ( props ) => {
 			clearInterval(timerId);
 		}
 
-		// This is a bit handwaving.
-
+		const searchedDomain = searchedSite.replace(
+			/https:\/\/www|http:\/\/www|https:\/\/|http:\/\//gi,
+			''
+		);
 		// only get up to index here.
 		const markup = cookies.map((c, i) => {
-			return i <= index ? (
-				<Result
-					isGood={c.domain.includes(searchedDomain)}
-					key={i}
-					cookie={c}
-				/>
-			) : (
-				''
-			);
+			// This is a bit handwaving. There must be a better way.
+			return i <= index ? <Result isGood={ c.domain.toLowerCase().includes( searchedDomain.toLowerCase() )} key={i} cookie={c} /> : '';
 		});
 		setCookiesMarkup(markup);
 	}, [index, setCookiesMarkup]);

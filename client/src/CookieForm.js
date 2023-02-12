@@ -54,9 +54,9 @@ const CookieForm = () => {
 				<input
 					className="input"
 					name="site"
-					type="text"
+					type="url"
 					value={site} // ...force the input's value to match the state variable...
-					onChange={(e) => setSite(e.target.value)}
+					onChange={(e) => setSite(e.target.value.trim())}
 				/>
 				<p className="help">
 					Please enter the full url with the https:// bit.
@@ -76,7 +76,16 @@ const CookieForm = () => {
 						so it might not get triggered.
 					</p>
 					<p className="help">
-						Also, Puppeteer is launched in an incognito context.
+						This only looks at the first 50k pixels in height of a page.
+						Usually not an issue.
+					</p>
+					<p className="help">
+						Subdomains except for www will show incorrect third party cookies.
+						This *is* an issue which will be fixed at some point. Cookies set
+						on the naked domain are first party.
+					</p>
+					<p className="help">
+						Puppeteer is launched in an incognito context.
 					</p>
 					<p className="help">
 						Lastly, this is a proof of concept and it's possible to
