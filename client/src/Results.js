@@ -22,20 +22,43 @@ const Results = ( props ) => {
 		return () => clearInterval(markupTimerId);
 	}, [cookies]);
 
+	const searchedDomain = searchedSite.replace(
+		/https:\/\/|http:\/\//gi,
+		''
+	);
+
 	useEffect(() => {
 		// Clear the timeout when we're done.
 		if (index >= cookies.length - 1) {
 			clearInterval(timerId);
 		}
 
-		const searchedDomain = searchedSite.replace(/https:\/\/|http:\/\//gi, '');
+		// This is a bit handwaving.
+
 		// only get up to index here.
 		const markup = cookies.map((c, i) => {
-			// This is a bit handwaving.
-			return i <= index ? <Result isGood={ c.domain.includes( searchedDomain )} key={i} cookie={c} /> : '';
+			return i <= index ? (
+				<Result
+					isGood={c.domain.includes(searchedDomain)}
+					key={i}
+					cookie={c}
+				/>
+			) : (
+				''
+			);
 		});
 		setCookiesMarkup(markup);
 	}, [index, setCookiesMarkup]);
+
+	// Just leaving this here for now.
+	const firstPartyCount = cookies.reduce((count, cookie) => {
+		console.log(cookie.domain);
+		console.log(searchedDomain);
+		if ( cookie.domain.includes(searchedDomain) ){
+			return count += 1;
+		}
+		return count;
+	}, 0);
 
 	return (
 		<>

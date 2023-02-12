@@ -69,7 +69,7 @@ const CookieForm = () => {
 					Get the cookies
 				</button>
 				<hr className="separator" />
-				<div class="more-info">
+				<div className="more-info">
 					<p className="help">
 						The sites will see this traffic as coming from the US.
 						The cookie consent check on a site can vary by location
