@@ -54,9 +54,9 @@ const CookieForm = () => {
 				<input
 					className="input"
 					name="site"
-					type="text"
+					type="url"
 					value={site} // ...force the input's value to match the state variable...
-					onChange={(e) => setSite(e.target.value)}
+					onChange={(e) => setSite(e.target.value.trim())}
 				/>
 				<p className="help">
 					Please enter the full url with the https:// bit.

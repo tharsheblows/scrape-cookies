@@ -8,7 +8,7 @@ router.post('/api', async function (_req, res) {
 
 	const body = _req.body;
 
-	if( ! body.site || ! validUrl.isUri(body.site) ) {
+	if( ! body.site || ! validUrl.isUri(body.site.trim()) ) {
 		res.send( { message:`${body.site} is not a valid url.` } );
 		return;
 	}
@@ -32,7 +32,7 @@ router.post('/api', async function (_req, res) {
 	});
 
 	try {
-		await page.goto(body.site, { waitUntil: 'networkidle2' });
+		await page.goto(body.site.trim(), { waitUntil: 'networkidle2' });
 	} catch (error) {
 		res.send( { message: 'This page could not be loaded, please check the url.' } );
 		return;
