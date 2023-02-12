@@ -4,7 +4,7 @@
   "description": "Puppeteer POC to scrape a site for cookies",
   "main": "server.js",
   "scripts": {
-    "build": "npm run start",
+    "build": "npm run build --workspace=client",
     "start": "npm run build --workspace=client && node server.js",
     "dev": "npm run dev --workspace=client && NODE_ENV=development nodemon server.js"
   },
