@@ -88,7 +88,7 @@ async function autoScroll(page) {
 					totalHeight += distance;
 
 					// Only look at the first 30000 pixels.
-					if ( totalHeight > 50000 || totalHeight >= scrollHeight - window.innerHeight ) {
+					if ( totalHeight > 30000 || totalHeight >= scrollHeight - window.innerHeight ) {
 						clearInterval(timer);
 						resolve();
 					}

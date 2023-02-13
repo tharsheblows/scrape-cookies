@@ -86,7 +86,7 @@ const CookieForm = () => {
 						so it might not get triggered.
 					</p>
 					<p className="help">
-						This only looks at the first 50k pixels in height of a
+						This only looks at the first 30k pixels in height of a
 						page. Usually not an issue.
 					</p>
 					<p className="help">
