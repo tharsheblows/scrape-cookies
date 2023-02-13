@@ -90,10 +90,9 @@ const CookieForm = () => {
 						page. Usually not an issue.
 					</p>
 					<p className="help">
-						Subdomains except for www will show incorrect third
-						party cookies. This *is* an issue which will be fixed at
-						some point. Cookies set on the naked domain are first
-						party.
+						The count and assignment of first party vs third party
+						cookies is a work in progress. If you could, let
+						me know where it's still incorrect.
 					</p>
 					<p className="help">
 						Puppeteer is launched in an incognito context.

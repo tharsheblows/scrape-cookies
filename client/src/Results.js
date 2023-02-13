@@ -6,19 +6,33 @@ const Results = ( props ) => {
 	const { cookies, searchedSite } = props;
 
 
-	const searchedDomain = searchedSite.replace(
-		/https:\/\/www|http:\/\/www|https:\/\/|http:\/\//gi,
-		''
-	);
+	const searchedUrl = new URL(searchedSite);
+	const searchedHostname = searchedUrl.hostname;
+
+	const isFirstParty = (c) => {
+		const cookieDomain = c.domain.replace(/^(\.)/, ''); // Take off the first . if it's there.
+		return searchedHostname
+			.toLowerCase()
+			.includes(cookieDomain.toLowerCase());
+	}
+
 	// only get up to index here.
 	const markup = cookies.map((c, i) => {
+
+
 		// This is a bit handwaving. There must be a better way.
-		return <Result isGood={ c.domain.toLowerCase().includes( searchedDomain.toLowerCase() )} key={i} cookie={c} />;
+		return (
+			<Result
+				isGood={isFirstParty(c)}
+				key={i}
+				cookie={c}
+			/>
+		);
 	});
 
 	// Just leaving this here for now.
 	const firstPartyCount =  cookies.reduce((count, cookie) => {
-		if ( cookie.domain.includes(searchedDomain) ){
+		if ( isFirstParty(cookie) ){
 			return count += 1;
 		}
 		return count;
@@ -29,9 +43,10 @@ const Results = ( props ) => {
 			<div className="counts">
 				<h2>Cookie counts</h2>
 				<p className="warning">
-					These numbers will overcount third party cookies when you are
-					searching a subdomains eg https://images.google.com/.
-					Please check the list below.
+					Please remember that the assignment of first vs
+					third party cookies is a work in progress. The
+					cookie details are correct though so you can
+					double check.
 				</p>
 				<p className="cookie-count">
 					<strong>Total cookies:</strong> {cookies.length}
