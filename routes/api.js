@@ -6,27 +6,24 @@ const validUrl = require('valid-url');
 
 /* GET api. */
 router.post('/api', async function (_req, res, next ) {
-	let sent = false;
+
 	let browser = false;
-	_req.setTimeout(25000, () => {
-		sent = true;
-		res.send(({ message: 'Request timeout' }));
+	_req.setTimeout(15000, () => {
+		res.send({ message: 'Request timeout' });
 	});
-	res.setTimeout(25000, () => {
-		sent = true;
+	res.setTimeout(15000, () => {
 		res.send({ message: 'Response timeout' });
 	});
 
 	const body = _req.body;
 
 	if (!body.site || !validUrl.isUri(body.site.trim())) {
-		sent = true;
 		res.send({ message: `${body.site} is not a valid url.` });
 	}
 
 	const onLoaded = body.onLoaded;
 
-	if ( sent ) {
+	if ( res.headersSent ) {
 		return;
 	}
 
@@ -59,7 +56,7 @@ router.post('/api', async function (_req, res, next ) {
 			await page.goto(body.site.trim(), { waitUntil: 'domcontentloaded' });
 		}
 	} catch (error) {
-		if ( ! sent ) {
+		if ( ! res.headersSent ) {
 			res.send({
 				message:
 					'This page could not be loaded, please check the url.',
@@ -67,15 +64,20 @@ router.post('/api', async function (_req, res, next ) {
 		}
 	}
 
-	if ( ! sent ) {
-		await autoScroll(page);
+	if ( ! res.headersSent ) {
+		const scrolled = await autoScroll(page);
+		console.log(scrolled);
 
-		const client = await page.target().createCDPSession();
-		const cookies = await client.send('Network.getAllCookies');
+		if ( ! scrolled || scrolled !== 'evaluated' ) {
+			res.send({ message: 'Response timeout. (2)' });
+		} else {
+			const client = await page.target().createCDPSession();
+			const cookies = await client.send('Network.getAllCookies');
 
-		// check again.
-		if ( ! sent ) {
-			res.send(cookies);
+			// check again.
+			if (!res.headersSent) {
+				res.send(cookies);
+			}
 		}
 	}
 
@@ -96,8 +98,9 @@ async function autoScroll(page) {
 			console.log(...args);
 		});
 
-		await page.evaluate(async () => {
-			await new Promise((resolve) => {
+
+		const evaluated = await page.evaluate( () => {
+			return new Promise((resolve) => {
 				let totalHeight = 0;
 				let distance = 100;
 				let count = 0;
@@ -110,15 +113,17 @@ async function autoScroll(page) {
 
 					// Only look at the first 10000 pixels.
 					if ( count > 100 || totalHeight >= scrollHeight - window.innerHeight ) {
+						evaluated = true;
 						clearInterval(timer);
-						resolve();
+						resolve('evaluated');
 					}
 				}, 100);
 			});
 		});
+		return evaluated;
 	} catch (error) {
 		console.log(error);
-		resolve();
+		return error;
 	}
 
 }
