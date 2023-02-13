@@ -1,22 +1,39 @@
 <div id="form">
 	<form class="form">
-		<label for="site" class="label">
-			Website page
-		</label>
-		<input class="input" name="site" disabled/>
-		<p class="help">loading</p>
+		<div class="field">
+			<label for="site" class="label">
+				Website page
+			</label>
+			<input class="input" name="site" disabled />
+			<p class="help">loading</p>
+		</div>
+		<div className="field">
+			<input type="checkbox" disabled />
+			<label for="onLoaded" class="inline-label">
+				Check to wait for DOM Content Loaded rather than idle.
+			</label>
+			<p className="help">
+				This is useful if you get a timeout with it unticked.
+			</p>
+		</div>
 		<button class="submit" type="submit" disabled>
 			Search for cookies
 		</button>
 		<hr class="separator" />
 		<div class="more-info">
 			<p class="help">
+				Ideally leave the checkbox above unchecked. This has the
+				page wait until network activity mainly stops before
+				continuing. Sometimes it never stops though. Sometimes
+				sites just take too long.
+			</p>
+			<p class="help">
 				The sites will see this traffic as coming from the US.
 				The cookie consent check on a site can vary by location
 				so it might not get triggered.
 			</p>
 			<p class="help">
-				This only looks at the first 30k pixels in height of a page.
+				This only looks at the first 10k pixels in height of a page.
 				Usually not an issue.
 			</p>
 			<p class="help">

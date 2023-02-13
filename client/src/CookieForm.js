@@ -8,6 +8,7 @@ const CookieForm = () => {
 	const [ hasCookies, setHasCookies ] = useState(false);
 	const [ cookies, setCookies ] = useState([]);
 	const [ loading, setLoading ] = useState(false);
+	const [ onLoaded, setOnLoaded ] = useState(false);
 
 	const handleSubmit = (e) => {
 		// Prevent the browser from reloading the page
@@ -17,7 +18,8 @@ const CookieForm = () => {
 		setLoading(true);
 
 		const body = {
-			"site": site
+			"site": site,
+			"onLoaded": onLoaded
 		}
 
 		// You can pass formData as a fetch body directly:
@@ -46,19 +48,38 @@ const CookieForm = () => {
 	return (
 		<>
 			<form className="form">
-				<label htmlFor="site" className="label">
-					Website page
-				</label>
-				<input
-					className="input"
-					name="site"
-					type="url"
-					value={site} // ...force the input's value to match the state variable...
-					onChange={(e) => setSite(e.target.value.trim())}
-				/>
-				<p className="help">
-					Please enter the full url with the https:// bit.
-				</p>
+				<div className="field">
+					<label htmlFor="site" className="label">
+						Website page
+					</label>
+					<input
+						className="input"
+						name="site"
+						id="site"
+						type="url"
+						value={site} // ...force the input's value to match the state variable...
+						onChange={(e) => setSite(e.target.value.trim())}
+					/>
+					<p className="help">
+						Please enter the full url with the https:// bit.
+					</p>
+				</div>
+				<div className="field">
+					<input
+						type="checkbox"
+						value={onLoaded}
+						name="onLoaded"
+						id="onLoaded"
+						onChange={() => setOnLoaded(!onLoaded)}
+					/>
+					<label htmlFor="onLoaded" className="inline-label">
+						Check to wait for DOM Content Loaded rather than idle.
+					</label>
+					<p className="help">
+						This is useful if you get a timeout with it unticked.
+					</p>
+				</div>
+
 				{loading && (
 					<button className="submit" type="submit" disabled>
 						loading
@@ -81,6 +102,12 @@ const CookieForm = () => {
 				<hr className="separator" />
 				<div className="more-info">
 					<p className="help">
+						Ideally leave the checkbox above unchecked. This has the
+						page wait until network activity mainly stops before
+						continuing. Sometimes it never stops though. Sometimes
+						sites just take too long.
+					</p>
+					<p className="help">
 						The sites will see this traffic as coming from the US.
 						The cookie consent check on a site can vary by location
 						so it might not get triggered.
@@ -91,8 +118,8 @@ const CookieForm = () => {
 					</p>
 					<p className="help">
 						The count and assignment of first party vs third party
-						cookies is a work in progress. If you could, let
-						me know where it's still incorrect.
+						cookies is a work in progress. If you could, let me know
+						where it's still incorrect.
 					</p>
 					<p className="help">
 						Puppeteer is launched in an incognito context.

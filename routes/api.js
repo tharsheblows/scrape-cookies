@@ -5,16 +5,24 @@ const puppeteer = require('puppeteer');
 const validUrl = require('valid-url');
 
 /* GET api. */
-router.post('/api', async function (_req, res ) {
-	_req.setTimeout(120000);
-	res.setTimeout(120000);
+router.post('/api', async function (_req, res, next ) {
+	let sent = false;
+	_req.setTimeout(25000, () => {
+		sent = true;
+		return res.send(({ message: 'Request timeout' }));
+	});
+	res.setTimeout(25000, () => {
+		sent = true;
+		return res.send({ message: 'Response timeout' });
+	});
 
 	const body = _req.body;
 
 	if (!body.site || !validUrl.isUri(body.site.trim())) {
-		res.send({ message: `${body.site} is not a valid url.` });
-		return;
+		return res.send({ message: `${body.site} is not a valid url.` });
 	}
+
+	const onLoaded = body.onLoaded;
 
 	const browser = await puppeteer.launch({
 		headless: true,
@@ -37,31 +45,38 @@ router.post('/api', async function (_req, res ) {
 	});
 
 	try {
-		await page.goto(body.site.trim(), { waitUntil: 'networkidle2' });
-		console.log('first try');
-	} catch (error) {
-		try {
-			console.log('second try');
-			await page.goto(body.site.trim(), {
-				waitUntil: 'domcontentloaded',
-			});
-		} catch (err) {
-			console.log('error');
-			res.send({
-				message: 'This page could not be loaded, please check the url.',
-			});
-			return;
+		if ( ! onLoaded ) {
+			console.log('wait');
+			await page.goto(body.site.trim(), { waitUntil: 'networkidle2' });
+		} else {
+			console.log('do not wait');
+			await page.goto(body.site.trim(), { waitUntil: 'domcontentloaded' });
 		}
+	} catch (error) {
+		if ( ! sent ) {
+			return res.send({
+				message:
+					'This page could not be loaded, please check the url.',
+			});
+		}
+		return;
 	}
 
 	console.log('here');
 
-	await autoScroll(page);
+	if ( ! sent ) {
+		await autoScroll(page);
 
-	const client = await page.target().createCDPSession();
-	const cookies = await client.send('Network.getAllCookies');
+		const client = await page.target().createCDPSession();
+		const cookies = await client.send('Network.getAllCookies');
 
-	res.send(cookies);
+		// check again.
+		if ( ! sent ) {
+			res.send(cookies);
+		}
+	}
+
+
 
 	console.log('done');
 
@@ -92,8 +107,8 @@ async function autoScroll(page) {
 					totalHeight += distance;
 					count += 1;
 
-					// Only look at the first 30000 pixels.
-					if ( count > 300 || totalHeight >= scrollHeight - window.innerHeight ) {
+					// Only look at the first 10000 pixels.
+					if ( count > 100 || totalHeight >= scrollHeight - window.innerHeight ) {
 						clearInterval(timer);
 						resolve();
 					}

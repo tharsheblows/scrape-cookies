@@ -87,8 +87,19 @@ button:hover {
 	padding-inline: 1em;
 }
 
+.field {
+	margin-block-end: 1em;
+	background-color: var(--background);
+	padding: 0.5em;
+}
+
 .label {
 	display: block;
+}
+
+.inline-label {
+	display: inline-block;
+	margin-inline: 0.5em;
 }
 
 .input {
