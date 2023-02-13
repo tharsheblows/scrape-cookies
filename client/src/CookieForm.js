@@ -64,41 +64,43 @@ const CookieForm = () => {
 						Please enter the full url with the https:// bit.
 					</p>
 				</div>
-				<div className="field">
-					<input
-						type="checkbox"
-						value={onLoaded}
-						name="onLoaded"
-						id="onLoaded"
-						onChange={() => setOnLoaded(!onLoaded)}
-					/>
-					<label htmlFor="onLoaded" className="inline-label">
-						Check to wait for DOM Content Loaded rather than idle.
-					</label>
-					<p className="help">
-						This is useful if you get a timeout with it unticked.
-					</p>
+				<div className="field field__secondary">
+					<div className="field__checkbox">
+						<input
+							type="checkbox"
+							value={onLoaded}
+							name="onLoaded"
+							id="onLoaded"
+							onChange={() => setOnLoaded(!onLoaded)}
+						/>
+						<label htmlFor="onLoaded" className="inline-label">
+							Check to wait for DOM Content Loaded rather than
+							idle. This is useful if you get a timeout with it
+							unticked.
+						</label>
+					</div>
 				</div>
-
-				{loading && (
-					<button className="submit" type="submit" disabled>
-						loading
-					</button>
-				)}
-				{!loading && (
-					<button
-						className="submit"
-						type="submit"
-						onClick={(e) => handleSubmit(e)}
-					>
-						Search for cookies
-					</button>
-				)}
-				{!loading && hasCookies && (
-					<a className="go-to-cookies button" href="#cookies">
-						Go to the cookie list
-					</a>
-				)}
+				<div className="field">
+					{loading && (
+						<button className="submit" type="submit" disabled>
+							loading
+						</button>
+					)}
+					{!loading && (
+						<button
+							className="submit"
+							type="submit"
+							onClick={(e) => handleSubmit(e)}
+						>
+							Search for cookies
+						</button>
+					)}
+					{!loading && hasCookies && (
+						<a className="go-to-cookies button" href="#cookies">
+							Go to the cookie list
+						</a>
+					)}
+				</div>
 				<hr className="separator" />
 				<div className="more-info">
 					<p className="help">

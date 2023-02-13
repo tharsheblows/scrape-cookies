@@ -7,14 +7,15 @@
 			<input class="input" name="site" disabled />
 			<p class="help">loading</p>
 		</div>
-		<div className="field">
-			<input type="checkbox" disabled />
-			<label for="onLoaded" class="inline-label">
-				Check to wait for DOM Content Loaded rather than idle.
-			</label>
-			<p className="help">
-				This is useful if you get a timeout with it unticked.
-			</p>
+		<div className="field field__secondary">
+			<div className="field__checkbox">
+				<input type="checkbox" disabled />
+				<label for="onLoaded" class="inline-label">
+					Check to wait for DOM Content Loaded rather than
+					idle. This is useful if you get a timeout with it
+					unticked.
+				</label>
+			</div>
 		</div>
 		<button class="submit" type="submit" disabled>
 			Search for cookies

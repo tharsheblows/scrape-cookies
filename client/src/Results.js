@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Result from "./Result";
 
 const Results = ( props ) => {
@@ -11,7 +11,13 @@ const Results = ( props ) => {
 			return false;
 		}
 
-		const searchedUrl = new URL(searchedSite);
+		let searchedUrl;
+		try {
+			searchedUrl = new URL(searchedSite);
+		} catch {
+			return false;
+		}
+
 		const searchedHostname = searchedUrl.hostname ?? '';
 		const cookieDomain = c.domain.replace(/^(\.)/, ''); // Take off the first . if it's there.
 		return searchedHostname
