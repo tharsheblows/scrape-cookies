@@ -5,11 +5,14 @@ const Results = ( props ) => {
 
 	const { cookies, searchedSite } = props;
 
-
-	const searchedUrl = new URL(searchedSite);
-	const searchedHostname = searchedUrl.hostname;
-
 	const isFirstParty = (c) => {
+
+		if ( ! searchedSite ) {
+			return false;
+		}
+
+		const searchedUrl = new URL(searchedSite);
+		const searchedHostname = searchedUrl.hostname ?? '';
 		const cookieDomain = c.domain.replace(/^(\.)/, ''); // Take off the first . if it's there.
 		return searchedHostname
 			.toLowerCase()
