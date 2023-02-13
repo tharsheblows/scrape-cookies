@@ -7,24 +7,30 @@ const validUrl = require('valid-url');
 /* GET api. */
 router.post('/api', async function (_req, res, next ) {
 	let sent = false;
+	let browser = false;
 	_req.setTimeout(25000, () => {
 		sent = true;
-		return res.send(({ message: 'Request timeout' }));
+		res.send(({ message: 'Request timeout' }));
 	});
 	res.setTimeout(25000, () => {
 		sent = true;
-		return res.send({ message: 'Response timeout' });
+		res.send({ message: 'Response timeout' });
 	});
 
 	const body = _req.body;
 
 	if (!body.site || !validUrl.isUri(body.site.trim())) {
-		return res.send({ message: `${body.site} is not a valid url.` });
+		sent = true;
+		res.send({ message: `${body.site} is not a valid url.` });
 	}
 
 	const onLoaded = body.onLoaded;
 
-	const browser = await puppeteer.launch({
+	if ( sent ) {
+		return;
+	}
+
+	browser = await puppeteer.launch({
 		headless: true,
 		// Could have dynamic options here for incognito.
 		args: ['--no-sandbox'],
@@ -54,15 +60,12 @@ router.post('/api', async function (_req, res, next ) {
 		}
 	} catch (error) {
 		if ( ! sent ) {
-			return res.send({
+			res.send({
 				message:
 					'This page could not be loaded, please check the url.',
 			});
 		}
-		return;
 	}
-
-	console.log('here');
 
 	if ( ! sent ) {
 		await autoScroll(page);
@@ -76,11 +79,9 @@ router.post('/api', async function (_req, res, next ) {
 		}
 	}
 
-
-
 	console.log('done');
-
 	await browser.close();
+
 });
 
 // Thank you Cory. https://stackoverflow.com/questions/51529332/puppeteer-scroll-down-until-you-cant-anymore
