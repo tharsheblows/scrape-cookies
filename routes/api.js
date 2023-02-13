@@ -6,6 +6,7 @@ const validUrl = require('valid-url');
 
 /* GET api. */
 router.post('/api', async function (_req, res ) {
+	_req.setTimeout(120000);
 	res.setTimeout(120000);
 
 	const body = _req.body;
