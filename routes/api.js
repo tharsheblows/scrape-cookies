@@ -5,7 +5,9 @@ const puppeteer = require('puppeteer');
 const validUrl = require('valid-url');
 
 /* GET api. */
-router.post('/api', async function (_req, res) {
+router.post('/api', async function (_req, res ) {
+	res.setTimeout(120000);
+
 	const body = _req.body;
 
 	if (!body.site || !validUrl.isUri(body.site.trim())) {
@@ -58,7 +60,6 @@ router.post('/api', async function (_req, res) {
 	const client = await page.target().createCDPSession();
 	const cookies = await client.send('Network.getAllCookies');
 
-	console.log(cookies);
 	res.send(cookies);
 
 	console.log('done');
