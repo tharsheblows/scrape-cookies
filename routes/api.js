@@ -58,6 +58,7 @@ router.post('/api', async function (_req, res) {
 	const client = await page.target().createCDPSession();
 	const cookies = await client.send('Network.getAllCookies');
 
+	console.log(cookies);
 	res.send(cookies);
 
 	console.log('done');
@@ -81,14 +82,16 @@ async function autoScroll(page) {
 			await new Promise((resolve) => {
 				let totalHeight = 0;
 				let distance = 100;
+				let count = 0;
 
 				const timer = setInterval(() => {
 					const scrollHeight = document.body.scrollHeight;
 					window.scrollBy(0, distance);
 					totalHeight += distance;
+					count += 1;
 
 					// Only look at the first 30000 pixels.
-					if ( totalHeight > 30000 || totalHeight >= scrollHeight - window.innerHeight ) {
+					if ( count > 300 || totalHeight >= scrollHeight - window.innerHeight ) {
 						clearInterval(timer);
 						resolve();
 					}
